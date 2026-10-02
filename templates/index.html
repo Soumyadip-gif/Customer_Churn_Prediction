@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ChurnShield AI | Customer Churn Prediction</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+    <!-- ==============================
+         BACKGROUND
+         ============================== -->
+
+    <div class="background">
+
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+    </div>
+
+
+    <!-- ==============================
+         NAVBAR
+         ============================== -->
+
+    <header class="navbar">
+
+        <div class="logo">
+
+            <span class="logo-icon">◈</span>
+
+            <span>
+                ChurnShield <b>AI</b>
+            </span>
+
+        </div>
+
+
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            ML Model Online
+
+        </div>
+
+    </header>
+
+
+    <!-- ==============================
+         MAIN CONTAINER
+         ============================== -->
+
+    <main class="container">
+
+
+        <!-- ==============================
+             HERO SECTION
+             ============================== -->
+
+        <section class="hero">
+
+            <div class="hero-badge">
+                AI-POWERED CUSTOMER ANALYTICS
+            </div>
+
+
+            <h1>
+
+                Predict Customer
+
+                <span>
+                    Churn Before It Happens.
+                </span>
+
+            </h1>
+
+
+            <p>
+
+                Analyze customer behavior using machine learning
+                and identify customers who may be at risk of leaving.
+
+            </p>
+
+        </section>
+
+
+
+        <!-- ==============================
+             RECENT PREDICTIONS
+             ============================== -->
+
+        <section class="history-section">
+
+            <div class="history-header">
+
+                <div>
+
+                    <span class="section-label">
+                        SESSION ACTIVITY
+                    </span>
+
+
+                    <h2>
+                        Recent Predictions
+                    </h2>
+
+
+                    <p class="prediction-count">
+
+                        <span id="predictionCount">
+                            0
+                        </span>
+
+                        customers analyzed
+
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="clear-history"
+                    onclick="clearHistory()">
+
+                    Clear
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="historyList"
+                class="history-list">
+
+                <div class="empty-history">
+
+                    No predictions yet.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==============================
+             MODEL INTELLIGENCE
+             ============================== -->
+
+        <section class="model-section">
+
+            <div class="model-header">
+
+                <div>
+
+                    <span class="section-label">
+                        MODEL INTELLIGENCE
+                    </span>
+
+
+                    <h2>
+                        ChurnShield AI Model
+                    </h2>
+
+                </div>
+
+
+                <div class="model-status">
+
+                    <span class="status-dot"></span>
+
+                    Model Active
+
+                </div>
+
+            </div>
+
+
+            <div class="model-grid">
+
+
+                <!-- ALGORITHM -->
+
+                <div class="model-card">
+
+                    <span class="model-card-label">
+                        ALGORITHM
+                    </span>
+
+
+                    <strong>
+                        HistGradientBoosting
+                    </strong>
+
+
+                    <p>
+                        Optimized gradient boosting classifier.
+                    </p>
+
+                </div>
+
+
+
+                <!-- ROC-AUC -->
+
+                <div class="model-card">
+
+                    <span class="model-card-label">
+                        ROC-AUC
+                    </span>
+
+
+                    <strong>
+                        86.76%
+                    </strong>
+
+
+                    <p>
+                        Evaluation score on the test dataset.
+                    </p>
+
+                </div>
+
+
+
+                <!-- F1 SCORE -->
+
+                <div class="model-card">
+
+                    <span class="model-card-label">
+                        F1 SCORE
+                    </span>
+
+
+                    <strong>
+                        63.75%
+                    </strong>
+
+
+                    <p>
+                        Measured using the selected threshold.
+                    </p>
+
+                </div>
+
+
+
+                <!-- THRESHOLD -->
+
+                <div class="model-card">
+
+                    <span class="model-card-label">
+                        THRESHOLD
+                    </span>
+
+
+                    <strong>
+                        0.35
+                    </strong>
+
+
+                    <p>
+                        Decision threshold used for churn detection.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==============================
+             DASHBOARD
+             ============================== -->
+
+        <section class="dashboard">
+
+
+            <!-- ==============================
+                 INPUT CARD
+                 ============================== -->
+
+            <div class="card input-card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            CUSTOMER ANALYSIS
+                        </span>
+
+
+                        <h2>
+                            Customer Information
+                        </h2>
+
+
+                        <p class="card-subtitle">
+                            Enter customer details to estimate churn risk.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-icon">
+                        ◉
+                    </div>
+
+                </div>
+
+
+
+                <!-- PREDICTION FORM -->
+
+                <form id="predictionForm">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- CREDIT SCORE -->
+
+                        <div class="input-group">
+
+                            <label>
+                                Credit Score
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="credit_score"
+                                value="650"
+                                min="300"
+                                max="850"
+                                required>
+
+                        </div>
+
+
+
+                        <!-- AGE -->
+
+                        <div class="input-group">
+
+                            <label>
+                                Age
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="age"
+                                value="35"
+                                min="18"
+                                max="100"
+                                required>
+
+                        </div>
+
+
+
+                        <!-- TENURE -->
+
+                        <div class="input-group">
+
+                            <label>
+                                Tenure
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="tenure"
+                                value="5"
+                                min="0"
+                                max="10"
+                                required>
+
+                        </div>
+
+
+
+                        <!-- BALANCE -->
+
+                        <div class="input-group">
+
+                            <label>
+                                Balance
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="balance"
+                                value="50000"
+                                min="0"
+                                step="0.01"
+                                required>
+
+                        </div>
+
+
+
+                        <!-- PRODUCTS -->
+
+                        <div class="input-group">
+
+                            <label>
+                                Number of Products
+                            </label>
+
+
+                            <select id="products_number">
+
+                                <option value="1">
+                                    1 Product
+                                </option>
+
+                                <option
+                                    value="2"
+                                    selected>
+
+                                    2 Products
+
+                                </option>
+
+                                <option value="3">
+                                    3 Products
+                                </option>
+
+                                <option value="4">
+                                    4 Products
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- COUNTRY -->
+
+                        <div class="input-group">
+
+                            <label>
+                                Country
+                            </label>
+
+
+                            <select id="country">
+
+                                <option value="France">
+                                    France
+                                </option>
+
+                                <option value="Germany">
+                                    Germany
+                                </option>
+
+                                <option value="Spain">
+                                    Spain
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- GENDER -->
+
+                        <div class="input-group">
+
+                            <label>
+                                Gender
+                            </label>
+
+
+                            <select id="gender">
+
+                                <option value="Male">
+                                    Male
+                                </option>
+
+                                <option value="Female">
+                                    Female
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- SALARY -->
+
+                        <div class="input-group">
+
+                            <label>
+                                Estimated Salary
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="estimated_salary"
+                                value="60000"
+                                min="0"
+                                step="0.01"
+                                required>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- TOGGLES -->
+
+                    <div class="toggle-section">
+
+
+                        <!-- CREDIT CARD -->
+
+                        <div class="toggle-item">
+
+                            <div>
+
+                                <strong>
+                                    Credit Card
+                                </strong>
+
+                                <small>
+                                    Customer owns a credit card
+                                </small>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="credit_card"
+                                    checked>
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+
+                        <!-- ACTIVE MEMBER -->
+
+                        <div class="toggle-item">
+
+                            <div>
+
+                                <strong>
+                                    Active Member
+                                </strong>
+
+                                <small>
+                                    Customer is actively using the service
+                                </small>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="active_member"
+                                    checked>
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ANALYZE BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="predict-btn">
+
+                        <span>
+                            Analyze Customer
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- ==============================
+                 RESULT CARD
+                 ============================== -->
+
+            <div class="card result-card">
+
+
+                <div class="result-header">
+
+                    <span class="section-label">
+                        PREDICTION RESULT
+                    </span>
+
+
+                    <div class="ai-badge">
+                        AI
+                    </div>
+
+                </div>
+
+
+
+                <!-- RESULT PLACEHOLDER -->
+
+                <div
+                    id="resultPlaceholder"
+                    class="result-placeholder">
+
+
+                    <div class="pulse-icon">
+                        ◇
+                    </div>
+
+
+                    <h3>
+                        Ready for Analysis
+                    </h3>
+
+
+                    <p>
+
+                        Enter customer information and click
+                        <b>Analyze Customer</b>
+                        to generate a prediction.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- RESULT CONTENT -->
+
+                <div
+                    id="resultContent"
+                    class="result-content hidden">
+
+
+                    <!-- RISK CIRCLE -->
+
+                    <div class="risk-circle">
+
+                        <div class="risk-value">
+
+                            <span id="probability">
+                                0
+                            </span>%
+
+                        </div>
+
+
+                        <div class="risk-label">
+                            CHURN PROBABILITY
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- RISK LEVEL -->
+
+                    <div class="risk-status">
+
+                        <span>
+                            RISK LEVEL
+                        </span>
+
+
+                        <strong id="riskLevel">
+                            LOW
+                        </strong>
+
+                    </div>
+
+
+
+                    <!-- PREDICTION MESSAGE -->
+
+                    <div class="prediction-message">
+
+
+                        <div class="message-icon">
+                            ✓
+                        </div>
+
+
+                        <div>
+
+                            <strong id="predictionText">
+                                Low Churn Risk
+                            </strong>
+
+
+                            <p id="predictionDescription">
+
+                                This customer currently shows
+                                a relatively low probability of churn.
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- RESET -->
+
+                    <button
+                        class="reset-btn"
+                        onclick="resetPrediction()">
+
+                        Analyze Another Customer
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==============================
+             PREDICTION NOTICE
+             ============================== -->
+
+        <section class="disclaimer-section">
+
+            <div class="disclaimer-icon">
+                ⓘ
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Prediction Notice
+                </strong>
+
+
+                <p>
+                    ChurnShield AI provides machine-learning-based
+                    estimates for analytical purposes. Predictions
+                    are not guaranteed outcomes and should be reviewed
+                    alongside other customer information.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ==============================
+         JAVASCRIPT
+         ============================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/app.js') }}">
+    </script>
+
+
+</body>
+
+</html>
